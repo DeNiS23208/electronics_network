@@ -18,6 +18,7 @@
 - PostgreSQL 15  
 - django-filter  
 - python-dotenv  
+- pytest + pytest-django + pytest-cov  
 
 ---
 
@@ -92,6 +93,49 @@ python manage.py runserver
 
 ---
 
+## 🧪 Тестирование
+
+В проекте настроены автотесты (`pytest`, `pytest-django`).  
+Проверяется:
+- CRUD API (создание, фильтрация по стране, запрет изменения `debt`);  
+- Права доступа (403 для обычного пользователя);  
+- Иерархия уровней (0 → 1 → 2, глубже нельзя);  
+- Admin action «очистить задолженность».  
+
+### Запуск тестов
+```bash
+python -m pytest -q
+```
+
+### Запуск с покрытием
+```bash
+python -m pytest --cov=network --cov-report=term-missing -q
+```
+
+или
+
+```bash
+coverage run -m pytest
+coverage report
+coverage html   # отчёт в htmlcov/index.html
+```
+
+Пример покрытия:
+```
+---------- coverage: platform darwin, python 3.12 ----------
+Name                         Stmts   Miss  Cover   Missing
+----------------------------------------------------------
+network/admin.py                40      0   100%
+network/models.py               65      2    97%   67-68
+network/permissions.py           7      0   100%
+network/serializers.py          30      1    97%   47
+network/views.py                28      0   100%
+----------------------------------------------------------
+TOTAL                          170      3    98%
+```
+
+---
+
 ## 📊 Пример работы API
 
 Создать звено сети:
@@ -135,3 +179,4 @@ POST /api/suppliers/
 - [x] Админка: вывод, ссылка на поставщика, фильтр, action очистки задолженности  
 - [x] API: CRUD, запрет изменения `debt`, фильтрация по стране  
 - [x] Доступ к API только активным сотрудникам  
+- [x] Покрытие автотестами (pytest + coverage)  
