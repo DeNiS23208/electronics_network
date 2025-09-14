@@ -5,13 +5,19 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import NetworkNode, Product
 from .serializers import NetworkNodeSerializer, ProductSerializer
 
+
 class SupplierViewSet(viewsets.ModelViewSet):
-    queryset = NetworkNode.objects.select_related("supplier").prefetch_related("products").all()
+    queryset = (
+        NetworkNode.objects.select_related("supplier")
+        .prefetch_related("products")
+        .all()
+    )
     serializer_class = NetworkNodeSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["country"]  # фильтр по стране
     search_fields = ["name", "city", "country", "email"]
     ordering_fields = ["name", "city", "country", "created_at", "debt"]
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()

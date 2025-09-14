@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission
 
+
 class IsActiveStaff(BasePermission):
     def has_permission(self, request, view):
         u = request.user

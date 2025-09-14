@@ -2,6 +2,7 @@ from __future__ import annotations
 from django.db import models
 from django.core.exceptions import ValidationError
 
+
 class Product(models.Model):
     name = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
@@ -29,7 +30,8 @@ class NetworkNode(models.Model):
     supplier = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
-        null=True, blank=True,
+        null=True,
+        blank=True,
         related_name="children",
         help_text="Поставщик (предыдущее по иерархии звено)",
     )
